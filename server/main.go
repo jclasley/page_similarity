@@ -12,10 +12,6 @@ import (
 
 func main() {
 	http.HandleFunc("/api/search/", genHandler)
-	http.HandleFunc("/tadah", func (w http.ResponseWriter, r *http.Request) {
-		w.WriteHeader(200)
-		w.Write([]byte(`Tadah`))
-	})
 	http.ListenAndServe(":8080", nil)
 }
 
@@ -25,21 +21,10 @@ func genHandler(w http.ResponseWriter, r *http.Request) {
 	rs, err := findPage(t)
 	if err != nil {
 		w.WriteHeader(400)
-		w.Write([]byte(`Error`))
+		w.Write([]byte(fmt.Sprintf(`%s`, err.Error())))
 	}
 	w.WriteHeader(200)
-	fmt.Println(rs)
 	w.Write(rs)
-}
-
-type SearchResult struct {
-	Ns int
-	Title string
-	Pageid int
-	Size int
-	Wordcount int
-	Snippet string
-	Timestamp string
 }
 
 func findPage(t string) (json.RawMessage, error) {
@@ -49,7 +34,6 @@ func findPage(t string) (json.RawMessage, error) {
 	if err != nil {
 		return []byte{}, err
 	}
-	// rs := []SearchResult{}
 	
 	b, err := io.ReadAll(res.Body)
 	if err != nil {
@@ -62,10 +46,5 @@ func findPage(t string) (json.RawMessage, error) {
 	var queryMap map[string]json.RawMessage
 	json.Unmarshal(objMap["query"], &queryMap) // one level down
 	
-	// for k,v := range queryMap {
-	// 	if k == "search" {
-	// 		json.Unmarshal(v, &rs)
-	// 	}
-	// }
 	return queryMap["search"], nil
 }

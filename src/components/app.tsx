@@ -1,5 +1,6 @@
 import * as React from 'react'
+import Search from './search'
 
-const App = () => <div>"React is in"</div>;
+const App = () => <Search />;
 
 export default App;

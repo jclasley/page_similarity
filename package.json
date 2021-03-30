@@ -7,7 +7,8 @@
     "run": "tsc && node index.js",
     "build:dev": "webpack -w",
     "build": "MODE=production webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "cd server && go run main.go"
   },
   "repository": {
     "type": "git",

@@ -30,9 +30,8 @@ func FindPage(t string) (json.RawMessage, error) {
 func PlainTextPage(id string) (json.RawMessage, error) {
 // https://en.wikipedia.org/w/api.php?action=query&pageids=417121&prop=extracts&explaintext
 
-	url := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=query&format=json&pageids=%s&prop=extracts&explaintext", id)
+	url := fmt.Sprintf("https://en.wikipedia.org/w/api.php?action=query&format=json&pageids=%s&prop=extracts&exintro&explaintext", id)
 	res, err := http.Get(url)
-	fmt.Println(url)
 	if err != nil {
 		return []byte{}, err
 	}

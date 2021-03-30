@@ -1,0 +1,54 @@
+.subcontainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.subcontainer > button {
+  margin-top: 0;
+  margin-bottom: 1em;
+}
+
+.app {
+  display: grid;
+  grid-template: 1fr / repeat(3, 1fr);
+  align-content: center;
+  height: 100vh;
+}
+
+#search-one {
+  grid-area: 1;
+}
+
+#search-two {
+  grid-area: 1/3;
+}
+button {
+  width: fit-content;
+}
+
+.result {
+  grid-area: 1/2;
+  font-size: 2em;
+  margin: auto;
+}
+
+.results {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: space-between;
+  text-align: center;
+  width: 100%;
+}
+
+.results > div {
+  padding: 1rem;
+  cursor: pointer;
+  border: 1px solid black;
+}
+
+.clicked {
+  background-color: blanchedalmond;
+}

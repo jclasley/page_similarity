@@ -6,6 +6,7 @@ import (
 	// "log"
 	"net/http"
 	"controller"
+	"os"
 )
 
 func main() {
@@ -13,13 +14,13 @@ func main() {
 	http.Handle("/", fs)
 
 	http.HandleFunc("/api/search/", genHandler)
-	http.HandleFunc("/api/extract/", extractHandler) 
+	http.HandleFunc("/api/extract/", extractHandler)
+	http.HandleFunc("/api/compare/", compareHandler)
 	http.ListenAndServe(":8080", nil)
 }
 
 func genHandler(w http.ResponseWriter, r *http.Request) {
 	t := r.URL.Query().Get("t")
-	fmt.Println("t", t)
 	js, err := controller.FindPage(t)
 	if err != nil {
 		w.WriteHeader(400)
@@ -31,7 +32,6 @@ func genHandler(w http.ResponseWriter, r *http.Request) {
 
 func extractHandler(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("id")
-	fmt.Println(id)
 	js, err := controller.PlainTextPage(id)
 	if err != nil {
 		w.WriteHeader(400)
@@ -39,4 +39,13 @@ func extractHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	w.WriteHeader(200)
 	w.Write(js)
+}
+
+func compareHandler(w http.ResponseWriter, r *http.Request) {
+	t1 := r.URL.Query().Get("t1")
+	t2 := r.URL.Query().Get("t2")
+	os.Setenv("DAND_KEY", "d5fae78897c047fab1effd387ab9a5c8")
+	s := controller.CheckSimilarity(t1, t2)
+	w.WriteHeader(200)
+	w.Write([]byte(fmt.Sprintf(`%v`, s)))
 }
